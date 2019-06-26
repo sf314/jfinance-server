@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  jfinance-server:
+    build: .
+    ports:
+      - 8080:8080
+    container_name: jfinance-container
+# If you use an image, the dockerfile is ignored (cause dockerfiles build images)
