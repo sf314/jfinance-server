@@ -1,23 +1,30 @@
-package jfinance;
+package jfinance.resource;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping; // For endpoints
 import org.springframework.web.bind.annotation.RequestParam; // For uri params
 import org.springframework.web.bind.annotation.RestController; // For class
 
+import jfinance.business.TestResource;
 
 @RestController
 public class ResourceController {
     // Vars here
     private String greeting = "Hello";
     
-    @RequestMapping("/getResource")
-    public TestResource getResource(@RequestParam(value="name", defaultValue="Sir") String name) {
+    @RequestMapping(
+        value = "/getResource",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<?> getResource(@RequestParam(value="name", defaultValue="Sir") String name) {
         System.out.println("Hit URI `/getResource`");
         TestResource resource = new TestResource();
         resource.setName(name);
         resource.setId(12);
         
-        return resource;
+        return new ResponseEntity<TestResource>(resource, HttpStatus.OK);
     }
     
     // @RequestMapping("/error") // Apparently, avoid manually mapping /error for some reason

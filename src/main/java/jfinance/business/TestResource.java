@@ -1,6 +1,6 @@
 // Simple POJO for modelling stuff
 
-package jfinance;
+package jfinance.business;
 
 
 public class TestResource {
