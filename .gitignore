@@ -1,6 +1,7 @@
 # Intermediate files
 build
 .gradle/**
+bin
 
 # OS-specific files
 .DS_Store
