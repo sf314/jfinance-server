@@ -42,5 +42,11 @@ public class UserInfo {
         return new ResponseEntity<ArrayList<String>>(userList, HttpStatus.OK);
     }
     
-    
+    // ***** Endpoint for listing accounts for a specific user
+    @GetMapping(
+        value = "/{name}",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAccountsForUser(@RequestParam(value = "name") final String username) {
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
 }
