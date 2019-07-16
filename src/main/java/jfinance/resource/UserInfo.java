@@ -47,6 +47,12 @@ public class UserInfo {
         value = "/{name}",
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAccountsForUser(@PathVariable(value = "name") final String username) {
-        return new ResponseEntity<String>(HttpStatus.OK);
+        ArrayList<String> accountList = new ArrayList<String>();
+        
+        // TODO: Business/data logic here: Should be objects with account metadata
+        accountList.add("1"); 
+        accountList.add("2");
+        
+        return new ResponseEntity<ArrayList<String>>(accountList, HttpStatus.OK);
     }
 }
