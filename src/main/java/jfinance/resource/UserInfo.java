@@ -10,6 +10,7 @@ package jfinance.resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping; // For endpoints
 import org.springframework.web.bind.annotation.RequestParam; // For uri params
 import org.springframework.web.bind.annotation.RestController; // For class
@@ -17,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController; // For class
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/users")
 public class UserInfo {
     
     // ***** Vars 
     
-    
-    // ***** Users endpoint for listing current users
-    @RequestMapping(
-        value = "/users",
+    // ***** Endpoint for listing all 
+    @GetMapping(
+        value = "",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> getUsers() {

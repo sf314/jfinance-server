@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RestController; // For class
 import jfinance.business.TestResource;
 
 @RestController
+@RequestMapping("/getResource")
 public class ResourceController {
     // Vars here
     private String greeting = "Hello";
     
     @RequestMapping(
-        value = "/getResource",
+        value = "/{name}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> getResource(@RequestParam(value="name", defaultValue="Sir") String name) {
