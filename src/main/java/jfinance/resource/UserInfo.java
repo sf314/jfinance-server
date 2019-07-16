@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping; // For endpoints
-import org.springframework.web.bind.annotation.RequestParam; // For uri params
 import org.springframework.web.bind.annotation.RestController; // For class
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class UserInfo {
     @GetMapping(
         value = "/{name}",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAccountsForUser(@RequestParam(value = "name") final String username) {
+    public ResponseEntity<?> getAccountsForUser(@PathVariable(value = "name") final String username) {
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 }

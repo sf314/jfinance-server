@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping; // For endpoints
-import org.springframework.web.bind.annotation.RequestParam; // For uri params
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController; // For class
 
 import jfinance.business.TestResource;
@@ -19,7 +19,7 @@ public class ResourceController {
         value = "/{name}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> getResource(@RequestParam(value="name", defaultValue="Sir") String name) {
+    public ResponseEntity<?> getResource(@PathVariable(value="name") String name) {
         System.out.println("Hit URI `/getResource`");
         TestResource resource = new TestResource();
         resource.setName(name);
