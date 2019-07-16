@@ -21,11 +21,6 @@ public class UserInfo {
     
     // ***** Vars 
     
-    // ***** Index endpoint for API Health check
-    @RequestMapping("/") 
-    public ResponseEntity<?> index() {
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
     
     // ***** Users endpoint for listing current users
     @RequestMapping(
