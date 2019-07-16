@@ -5,3 +5,7 @@ bin
 
 # OS-specific files
 .DS_Store
+
+# Settings and configurations
+.vscode/*
+.settings/*
