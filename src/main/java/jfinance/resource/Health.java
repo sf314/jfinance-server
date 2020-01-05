@@ -1,11 +1,12 @@
 package jfinance.resource;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import jfinance.resource.ro.HealthRO;
 
 /**
  * Health: RestController
@@ -21,12 +22,18 @@ public class Health {
     
     // ***** Vars
     
-    // ***** Check liveness
-    @GetMapping(
-        value = "/liveness",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<?> getLiveness() {
-        return new ResponseEntity<String>(HttpStatus.OK);
+    /**
+     * Liveness check
+     * @return
+     */
+    @GetMapping("/liveness")
+    public ResponseEntity<HealthRO> getLiveness() {
+        return new ResponseEntity<>(new HealthRO("ok"), HttpStatus.OK);
+    }
+    
+    
+    @GetMapping("/readiness")
+    public ResponseEntity<HealthRO> getReadiness() {
+        return new ResponseEntity<>(new HealthRO("ok"), HttpStatus.OK);
     }
 }
