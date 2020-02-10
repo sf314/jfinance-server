@@ -11,12 +11,12 @@ import org.springframework.http.ResponseEntity;
  */
 public class UserInfoTests {
     
-    UserInfo userInfo;
+    UserController userInfo;
     
     @Before
     public void before() {
         // Perform setup
-        userInfo = new UserInfo();
+        userInfo = new UserController();
     }
     
     @Test
