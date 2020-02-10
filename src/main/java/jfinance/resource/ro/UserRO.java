@@ -16,4 +16,13 @@ public class UserRO {
         this.name = name;
         this.id = id;
     }
+    
+    // ***** Getters
+    public String getName() {
+        return this.name;
+    }
+    
+    public long getId() {
+        return this.id;
+    }
 }

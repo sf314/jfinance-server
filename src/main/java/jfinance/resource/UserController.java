@@ -53,6 +53,19 @@ public class UserController {
         return new ResponseEntity<ArrayList<UserRO>>(userList, HttpStatus.OK);
     }
     
+    // ***** Endpoint for fetching information for a particular user
+    @GetMapping(
+        value = "/{id}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<UserRO> getInfoForUser(@PathVariable("id") String id) {
+        final String METHOD = "getInfoForUser";
+        UserRO user = new UserRO("Steve", 456);
+        
+        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "Fetched info for user " + id + ": " + user.getName());
+        return new ResponseEntity<UserRO>(user, HttpStatus.OK);
+    }
+    
     // ***** Endpoint for listing accounts for a specific user
     @GetMapping(
         value = "/{id}/accounts",
