@@ -14,7 +14,7 @@ import jfinance.resource.ro.AccountRO;
 
 @RestController
 @RequestMapping("/accounts")
-public class AccountInfo {
+public class AccountController {
     
     @GetMapping(
         value = "/{accountId}", 

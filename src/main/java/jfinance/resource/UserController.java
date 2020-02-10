@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/users")
-public class UserInfo {
+public class UserController {
     
     // ***** Vars 
     

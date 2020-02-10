@@ -10,7 +10,7 @@ import jfinance.resource.ro.HealthRO;
 
 @RestController
 @RequestMapping("/health")
-public class HealthCheck {
+public class HealthController {
     
     @GetMapping("/liveness")
     public ResponseEntity<HealthRO> getLiveness() {
