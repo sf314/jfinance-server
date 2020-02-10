@@ -19,12 +19,16 @@ import jfinance.resource.ro.AccountRO;
 import jfinance.resource.ro.UserRO;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     
     // ***** Vars 
+    public static final String CLASSNAME = UserController.class.getSimpleName();
+    public static final Logger LOGGER = Logger.getLogger(CLASSNAME);
     
     // ***** Endpoint for listing all 
     @GetMapping(
@@ -32,11 +36,15 @@ public class UserController {
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ArrayList<UserRO>> getUsers() {
+        final String METHOD = "getUsers";
+        
         ArrayList<UserRO> userList = new ArrayList<UserRO>();
         
         // TODO: Business/data logic here
         userList.add(new UserRO("Geoff", 123));
         userList.add(new UserRO("Steve", 456));
+        
+        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "Number of users found: " + userList.size());
         
         if (userList.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -48,14 +56,17 @@ public class UserController {
     // ***** Endpoint for listing accounts for a specific user
     @GetMapping(
         value = "/{id}",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<ArrayList<AccountRO>> getAccountsForUser(@PathVariable(value = "id") final String userId) {
-        System.out.println("Getting accounts for user " + userId);
+        final String METHOD = "getAccountsForUser";
         ArrayList<AccountRO> accountList = new ArrayList<AccountRO>();
         
         // TODO: Business/data logic here: Should be objects with account metadata
         accountList.add(new AccountRO("abc123", "PA Main", 123.45)); 
         accountList.add(new AccountRO("def456", "SA Main", 678.90));
+        
+        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "User " + userId + " has " + accountList.size() + " accounts");
         
         return new ResponseEntity<ArrayList<AccountRO>>(accountList, HttpStatus.OK);
     }
