@@ -55,7 +55,7 @@ public class UserController {
     
     // ***** Endpoint for listing accounts for a specific user
     @GetMapping(
-        value = "/{id}",
+        value = "/{id}/accounts",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<ArrayList<AccountRO>> getAccountsForUser(@PathVariable(value = "id") final String userId) {
