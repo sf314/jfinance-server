@@ -6,18 +6,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jfinance.resource.ro.HealthRO;
+
 @RestController
 @RequestMapping("/health")
 public class HealthCheck {
     
     @GetMapping("/liveness")
-    public ResponseEntity<?> getLiveness() {
-        return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    public ResponseEntity<HealthRO> getLiveness() {
+        return new ResponseEntity<HealthRO>(
+            new HealthRO("Ok"), HttpStatus.OK
+        );
     }
     
     @GetMapping("/readiness")
-    public ResponseEntity<?> getReadiness() {
-        return new ResponseEntity<String>("Ok", HttpStatus.OK);
+    public ResponseEntity<HealthRO> getReadiness() {
+        return new ResponseEntity<HealthRO>(
+            new HealthRO("Ok"), HttpStatus.OK
+        );
     }
     
 }
