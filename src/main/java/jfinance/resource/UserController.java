@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping; // For endpoints
 import org.springframework.web.bind.annotation.RestController; // For class
 
+import jfinance.resource.ro.AccountRO;
+import jfinance.resource.ro.UserRO;
+
 import java.util.ArrayList;
 
 @RestController
@@ -28,31 +31,32 @@ public class UserController {
         value = "",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> getUsers() {
-        ArrayList<String> userList = new ArrayList<String>();
+    public ResponseEntity<ArrayList<UserRO>> getUsers() {
+        ArrayList<UserRO> userList = new ArrayList<UserRO>();
         
         // TODO: Business/data logic here
-        userList.add("bob");
-        userList.add("steve");
+        userList.add(new UserRO("Geoff", 123));
+        userList.add(new UserRO("Steve", 456));
         
         if (userList.size() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         
-        return new ResponseEntity<ArrayList<String>>(userList, HttpStatus.OK);
+        return new ResponseEntity<ArrayList<UserRO>>(userList, HttpStatus.OK);
     }
     
     // ***** Endpoint for listing accounts for a specific user
     @GetMapping(
-        value = "/{name}",
+        value = "/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAccountsForUser(@PathVariable(value = "name") final String username) {
-        ArrayList<String> accountList = new ArrayList<String>();
+    public ResponseEntity<ArrayList<AccountRO>> getAccountsForUser(@PathVariable(value = "id") final String userId) {
+        System.out.println("Getting accounts for user " + userId);
+        ArrayList<AccountRO> accountList = new ArrayList<AccountRO>();
         
         // TODO: Business/data logic here: Should be objects with account metadata
-        accountList.add("1"); 
-        accountList.add("2");
+        accountList.add(new AccountRO("abc123", "PA Main", 123.45)); 
+        accountList.add(new AccountRO("def456", "SA Main", 678.90));
         
-        return new ResponseEntity<ArrayList<String>>(accountList, HttpStatus.OK);
+        return new ResponseEntity<ArrayList<AccountRO>>(accountList, HttpStatus.OK);
     }
 }
