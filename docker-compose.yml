@@ -8,5 +8,7 @@ services:
     ports:
       - 8080:8080
     container_name: jfinance-container
-    
+    volumes:
+      - ./storage:/home/storage:rw
+
 # If you use an image, the dockerfile is ignored (cause dockerfiles build images)

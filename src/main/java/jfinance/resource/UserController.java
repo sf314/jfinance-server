@@ -55,23 +55,23 @@ public class UserController {
     
     // ***** Endpoint for fetching information for a particular user
     @GetMapping(
-        value = "/{id}",
+        value = "/{userId}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<UserRO> getInfoForUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserRO> getInfoForUser(@PathVariable("userId") String userId) {
         final String METHOD = "getInfoForUser";
         UserRO user = new UserRO("Steve", 456);
         
-        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "Fetched info for user " + id + ": " + user.getName());
+        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "Fetched info for user " + userId + ": " + user.getName());
         return new ResponseEntity<UserRO>(user, HttpStatus.OK);
     }
     
     // ***** Endpoint for listing accounts for a specific user
     @GetMapping(
-        value = "/{id}/accounts",
+        value = "/{userId}/accounts",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ArrayList<AccountRO>> getAccountsForUser(@PathVariable(value = "id") final String userId) {
+    public ResponseEntity<ArrayList<AccountRO>> getAccountsForUser(@PathVariable(value = "userId") final String userId) {
         final String METHOD = "getAccountsForUser";
         ArrayList<AccountRO> accountList = new ArrayList<AccountRO>();
         
