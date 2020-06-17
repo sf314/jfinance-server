@@ -14,19 +14,26 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping; // For endpoints
 import org.springframework.web.bind.annotation.RestController; // For class
 
-import jfinance.resource.ro.AccountRO;
+import jfinance.data.FileStorage;
 import jfinance.resource.ro.UserRO;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    
+    // ***** Components
+    @Autowired FileStorage fileStorage;
     
     // ***** Vars 
     public static final String CLASSNAME = UserController.class.getSimpleName();
@@ -37,22 +44,15 @@ public class UserController {
         value = "",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ArrayList<UserRO>> getUsers() {
-        final String METHOD = "getUsers";
-        
-        ArrayList<UserRO> userList = new ArrayList<UserRO>();
-        
-        // TODO: Business/data logic here
-        userList.add(new UserRO("Geoff", 123));
-        userList.add(new UserRO("Steve", 456));
-        
-        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "Number of users found: " + userList.size());
-        
-        if (userList.size() == 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<List<String>> getUsers() {
+        try {
+            List<String> userList = fileStorage.listItemsInDir("");
+            return new ResponseEntity<List<String>>(userList, HttpStatus.OK);
+        } catch (Exception e) {
+            List<String> response = new ArrayList<>();
+            response.add(e.getMessage());
+            return new ResponseEntity<List<String>>(response, HttpStatus.OK);
         }
-        
-        return new ResponseEntity<ArrayList<UserRO>>(userList, HttpStatus.OK);
     }
     
     // ***** Endpoint for fetching information for a particular user
@@ -73,16 +73,66 @@ public class UserController {
         value = "/{userId}/accounts",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ArrayList<AccountRO>> getAccountsForUser(@PathVariable(value = "userId") final String userId) {
-        final String METHOD = "getAccountsForUser";
-        ArrayList<AccountRO> accountList = new ArrayList<AccountRO>();
+    public ResponseEntity<List<String>> getAccountsForUser(@PathVariable(value = "userId") final String userId) {
+        try {
+            List<String> userList = fileStorage.listItemsInDir(userId);
+            return new ResponseEntity<List<String>>(userList, HttpStatus.OK);
+        } catch (Exception e) {
+            List<String> response = new ArrayList<>();
+            response.add(e.getMessage());
+            return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+        }
+    }
+    
+    // ***** Endpoint for listing transactions for a given account
+    @GetMapping(
+        value = "/{userId}/accounts/{accountName}"
+    )
+    public ResponseEntity<List<String>> getTransactionsForAccount(
+        @PathVariable(value = "userId") final String userId, 
+        @PathVariable(value = "accountName") final String accountName) {
+
+        try {
+            List<String> userList = fileStorage.readTransactionsFromAccount(userId, accountName);
+            return new ResponseEntity<List<String>>(userList, HttpStatus.OK);
+        } catch (Exception e) {
+            List<String> response = new ArrayList<>();
+            response.add(e.getMessage());
+            return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+        }
+    }
+    
+    // ***** Endpoint for creating a new account for a user
+    @PostMapping(
+        value = "/{userId}/accounts/{accountName}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Object> createNewAccountForUser(
+        @PathVariable(value = "userId") final String userId, 
+        @PathVariable(value = "accountName") final String accountName) {
         
-        // TODO: Business/data logic here: Should be objects with account metadata
-        accountList.add(new AccountRO("abc123", "PA Main", 123.45)); 
-        accountList.add(new AccountRO("def456", "SA Main", 678.90));
+        try {
+            fileStorage.createAccountFile(userId, accountName);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    // ***** Endpoint for adding a transaction to an account
+    @PutMapping(
+        value = "/{userId}/accounts/{accountName}"
+    )
+    public ResponseEntity<Object> addTransaction(
+        @PathVariable(value = "userId") final String userId, 
+        @PathVariable(value = "accountName") final String accountName,
+        @RequestBody String transactionLine) {
         
-        LOGGER.logp(Level.INFO, CLASSNAME, METHOD, "User " + userId + " has " + accountList.size() + " accounts");
-        
-        return new ResponseEntity<ArrayList<AccountRO>>(accountList, HttpStatus.OK);
+        try {
+            fileStorage.writeStringToFile(userId, accountName, transactionLine);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
