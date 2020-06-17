@@ -11,3 +11,6 @@ bin
 .settings/*
 .classpath
 .project
+
+# Storage
+storage
